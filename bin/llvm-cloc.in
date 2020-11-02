@@ -1,0 +1,15 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 ir_files" 1>&2; exit 1; }
+
+INPUT=$@
+BUILD_DIR="@CMAKE_CURRENT_BINARY_DIR@"
+
+for f in "${INPUT[@]}"; do
+  echo "Processing ${f}"
+  @LLVM_OPT@ -load ${BUILD_DIR}/lib/libLLVMClocPass.so\
+    -cloc\
+    < ${f}
+done
+
+
